@@ -4,13 +4,13 @@ Attribute discovery project
 ```
 .
 ├── checkpoints             # Saved models and processed data
-  ├── model.pt              # Downloaded CLIP model (see instruction below)
+  └── model.pt              # Downloaded CLIP model (see instruction below)
 ├── data                    # Datasets
-  ├── LAD                   # LAD dataset
-    ├── LAD_annotations     
-    ├── LAD_images          
   ├── wiki                  # Wiki Data
-├── AttDiscovery            # Project files
+  └── LAD                   # LAD dataset
+    ├── LAD_annotations     
+    └── LAD_images          
+└── AttDiscovery            # Project files
   ├── clip                  # Scripts from CLIP
   ├── LAD_CLIP.ipynb        # Use CLIP to extract features for classification on LAD dataset
   └── README.md
