@@ -17,6 +17,7 @@ Attribute discovery project
 
 ## LAD Dataset
 Dataset [Homepage](https://github.com/PatrickZH/A-Large-scale-Attribute-Dataset-for-Zero-shot-Learning)
+
 Dataset [Download](https://drive.google.com/open?id=1WU2dld1rt5ajWaZqY3YLwLp-6USeQiVG), and unzip LAD_annotations and LAD_images folder under a local folder `LAD`.
 
 ## CLIP Setup
