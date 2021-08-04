@@ -1,9 +1,24 @@
 # Attribute Discovery
 
 Attribute discovery project
+```
+.
+├── checkpoints             # Saved models and processed data
+  ├── model.pt              # Downloaded CLIP model (see instruction below)
+├── data                    # Datasets
+  ├── LAD                   # LAD dataset
+    ├── LAD_annotations     
+    ├── LAD_images          
+  ├── wiki                  # Wiki Data
+├── AttDiscovery            # Project files
+  ├── clip                  # Scripts from CLIP
+  ├── LAD_CLIP.ipynb        # Use CLIP to extract features for classification on LAD dataset
+  └── README.md
+```
 
 ## LAD Dataset
-Dataset [download](https://drive.google.com/open?id=1WU2dld1rt5ajWaZqY3YLwLp-6USeQiVG), and unzip LAD_annotations and LAD_images folder under a local folder.
+Dataset [Homepage](https://github.com/PatrickZH/A-Large-scale-Attribute-Dataset-for-Zero-shot-Learning)
+Dataset [Download](https://drive.google.com/open?id=1WU2dld1rt5ajWaZqY3YLwLp-6USeQiVG), and unzip LAD_annotations and LAD_images folder under a local folder `LAD`.
 
 ## CLIP Setup
 Install dependencies of CLIP:
@@ -16,7 +31,7 @@ $ pip install git+https://github.com/openai/CLIP.git
 
 Download the CLIP model to `./checkpoints`:
 ```bash
-$ wget "https://openaipublic.azureedge.net/clip/models/40d365715913c9da98579312b702a82c18be219cc2a73407c4526f58eba950af/ViT-B-32.pt" -O checkpoints/model.pt
+$ wget "https://openaipublic.azureedge.net/clip/models/40d365715913c9da98579312b702a82c18be219cc2a73407c4526f58eba950af/ViT-B-32.pt" -O ../checkpoints/model.pt
 ```
 
 ## Load LAD Dataset
