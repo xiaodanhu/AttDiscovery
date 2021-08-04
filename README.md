@@ -2,7 +2,6 @@
 
 Attribute discovery project
 ```
-.
 ├── checkpoints             # Saved models and processed data
   └── model.pt              # Downloaded CLIP model (see instruction below)
 ├── data                    # Datasets
