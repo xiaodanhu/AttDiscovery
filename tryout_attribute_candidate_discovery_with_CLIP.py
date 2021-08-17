@@ -15,19 +15,23 @@ def get_attr_prompts(class_name, noun_chunk):
     # templates = [f'a {class_name} with {noun_chunk}', f'a {class_name} featured {noun_chunk}', f'a {class_name} showing {noun_chunk}']
     return templates
 
-def get_attribute_candidate_prompts(text_raw, nlp, if_use_template = False, class_name = None):
+def get_attribute_candidate_prompts(text_raw, nlp, if_use_template = False, class_name = None, method = 'DependencyParser'):
+    """
+        method: AMR, DependencyParser
+    """
     doc = nlp(text_raw)
     prompts = [] # a list of lists, each item is a list of filled prompt templete for each noun_chunk
-    noun_chunk_list = []
-    for chunk in doc.noun_chunks:
-        # pos_list = [token.pos_ for token in chunk]
-        ## filter out noun chunks without adj
-        # if 'ADJ' in pos_list:
-        noun_chunk_list.append(chunk.text)
-        if if_use_template and class_name:
-            prompts.append(get_attr_prompts(class_name, chunk.text)[0]) # NOTE: only use one template for now
-        else:
-            prompts.append(chunk.text)
+    if method == 'DependencyParser':
+        noun_chunk_list = []
+        for chunk in doc.noun_chunks:
+            # pos_list = [token.pos_ for token in chunk]
+            ## filter out noun chunks without adj
+            # if 'ADJ' in pos_list:
+            noun_chunk_list.append(chunk.text)
+            if if_use_template and class_name:
+                prompts.append(get_attr_prompts(class_name, chunk.text)[0]) # NOTE: only use one template for now
+            else:
+                prompts.append(chunk.text)
     return noun_chunk_list, prompts
 
 def get_probs(model, preprocess, noun_chunk_list, prompts, image_patches, device):
@@ -123,7 +127,7 @@ def main():
 
     get_top_k_attribute_spans_with_whole_image(image, text_raw, class_name, nlp, k = 5)
     
-def main_use_patches(output_dir):
+def main_use_patches(output_dir, method):
 
     device = "cuda:3" if torch.cuda.is_available() else "cpu"
     model, preprocess = clip.load("ViT-B/32", device=device)
@@ -142,9 +146,15 @@ def main_use_patches(output_dir):
     nlp = spacy.load("en_core_web_sm")
 
     """get text """
-    if_use_template = False
-    noun_chunk_list, prompts = get_attribute_candidate_prompts(text_raw, nlp, if_use_template = if_use_template, class_name = class_name)
-    print('prompts:', prompts)
+    ## using dependency parer:
+    if method == 'DependencyParser':
+        if_use_template = False
+        noun_chunk_list, prompts = get_attribute_candidate_prompts(text_raw, nlp, if_use_template = if_use_template, class_name = class_name)
+        print('prompts:', prompts)
+    elif method == 'AMR':
+        ## using AMR: TODO:
+        noun_chunk_list = ['sled dog', 'dog breed', 'genetic family', 'double coat', 'erect triangular ears', 'distinctive markings']   
+        prompts = ['sled dog', 'dog breed', 'genetic family', 'double coat', 'erect triangular ears', 'distinctive markings']   
     
     """load image patches"""
     img_path_list = ['/shared/nas/data/m1/wangz3/multimedia_attribute/AttDiscovery/test_images/Husky_L.jpg']
@@ -185,11 +195,13 @@ def main_use_patches(output_dir):
         v = Visualizer(raw_image[:, :, ::-1], MetadataCatalog.get(cfg.DATASETS.TRAIN[0]), scale=1.2) # bgr->rgb
         out = v.draw_box(box_coord, alpha=0.8, edge_color='g', line_style='-')
         out = v.draw_text(f'{text_span}',(box_coord[0],box_coord[1])) 
-        cv2.imwrite(os.path.join(output_dir, f'rankidx-{rank_idx}_textidx-{text_idx}.png'),out.get_image()[:, :, ::-1])
+        cv2.imwrite(os.path.join(output_dir, f'rank-{rank_idx}_textidx-{text_idx}.png'),out.get_image()[:, :, ::-1])
 
 if __name__ == '__main__':
-    output_dir = '/shared/nas/data/m1/wangz3/multimedia_attribute/AttDiscovery/test_output/text_patch_pairs'
-    main_use_patches(output_dir)
+    method = 'AMR' # DependencyParser
+    method = 'DependencyParser' 
+    output_dir = f'/shared/nas/data/m1/wangz3/multimedia_attribute/AttDiscovery/test_output/text_patch_pairs/{method}'
+    main_use_patches(output_dir, method)
 
 
 
