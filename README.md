@@ -1,19 +1,8 @@
 # Attribute Discovery
 
-Attribute discovery project
-```
-├── checkpoints             # Saved models and processed data
-  └── model.pt              # Downloaded CLIP model (see instruction below)
-├── data                    # Datasets
-  ├── wiki                  # Wiki Data
-  └── LAD                   # LAD dataset
-    ├── LAD_annotations     
-    └── LAD_images          
-└── AttDiscovery            # Project files
-  ├── clip                  # Scripts from CLIP
-  ├── LAD_CLIP.ipynb        # Use CLIP to extract features for classification on LAD dataset
-  └── README.md
-```
+## Amazon 50 Dataset
+Download the Amazon 50 dataset from the `data` folder. The dataset has been split into train/val/test.
+
 
 ## LAD Dataset
 Dataset [Homepage](https://github.com/PatrickZH/A-Large-scale-Attribute-Dataset-for-Zero-shot-Learning)
@@ -36,3 +25,19 @@ $ wget "https://openaipublic.azureedge.net/clip/models/40d365715913c9da98579312b
 
 ## Load LAD Dataset
 Check `LAD_CLIP.ipynb` for how to load LAD dataset
+
+
+Attribute discovery project
+```
+├── checkpoints             # Saved models and processed data
+  └── model.pt              # Downloaded CLIP model (see instruction below)
+├── data                    # Datasets
+  ├── wiki                  # Wiki Data
+  └── LAD                   # LAD dataset
+    ├── LAD_annotations     
+    └── LAD_images          
+└── AttDiscovery            # Project files
+  ├── clip                  # Scripts from CLIP
+  ├── LAD_CLIP.ipynb        # Use CLIP to extract features for classification on LAD dataset
+  └── README.md
+```
